@@ -82,6 +82,46 @@ public class SubArraySum {
 	}
 
 	/**
+	 * Find if the array has a continuous subarray of size at least 2 that sums up
+	 * to a multiple of k
+	 * 
+	 * https://leetcode.com/problems/continuous-subarray-sum/
+	 * 
+	 * @param nums
+	 * @param k
+	 * @return
+	 */
+	public boolean checkSubarraySum(int[] nums, int k) {
+
+		int sum = 0;
+		Map<Integer, Integer> sumMap = new HashMap<Integer, Integer>();
+		sumMap.put(0, -1);
+
+		for (int i = 0; i < nums.length; i++) {
+
+			sum += nums[i];
+
+			if (k != 0) {
+
+				sum = sum % k;
+			}
+
+			if (sumMap.containsKey(sum)) {
+
+				if (i - sumMap.get(sum) >= 2) {
+
+					return true;
+				}
+			} else {
+
+				sumMap.put(sum, i);
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Driver method
 	 * 
 	 * @param args
@@ -95,5 +135,6 @@ public class SubArraySum {
 
 		System.out.println(sas.subArraysCount(nums, k)); // returns 3
 		System.out.println(sas.subArraySum(nums, k)); // returns [0, 3]
+		System.out.println(sas.checkSubarraySum(nums, k)); // returns true
 	}
 }
